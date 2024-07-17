@@ -22,7 +22,7 @@ with col1:
         Onbeperkt_km= st.toggle("Onbeperkte km?")
         if (Onbeperkt_km == False):
             Gratis_km = st.number_input("Gratis km", min_value=0, value=500)
-            kostenextrakm = st.number_input("Extra kosten pkm (€)", min_value=0.00, value=0.01)
+            kostenextrakm = st.number_input("Extra kosten pkm (€)", min_value=0.00, value=0.0015, step=0.0001, format="%.4f")
             benzinekosten = ((totale_afstand / 100) * benzineverbruik_per_100_km * benzine_kosten_per_liter) + ((totale_afstand-Gratis_km)*kostenextrakm)
         else:
             benzinekosten = (totale_afstand / 100) * benzineverbruik_per_100_km * benzine_kosten_per_liter
