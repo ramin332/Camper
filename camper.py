@@ -18,12 +18,20 @@ with col1:
     benzineverbruik_per_100_km = st.number_input("Benzineverbruik per 100 km (L)", min_value=0.0, value=8.0)
     totale_afstand = st.number_input("Totale Afstand (km)", min_value=0, value=2000)
     gemiddelde_kosten_per_staplaats_per_dag = st.number_input("Gemiddelde Kosten per Staplaats per Dag (€)", min_value=0, value=40)
-
+    with st.popover("Onbeperkt km"):
+        Onbeperkt_km= st.toggle("Onbeperkte km?")
+        if (Onbeperkt_km == False):
+            Gratis_km = st.number_input("Gratis km", min_value=0, value=500)
+            kostenextrakm = st.number_input("Extra kosten pkm (€)", min_value=0.00, value=0.01)
+            benzinekosten = ((totale_afstand / 100) * benzineverbruik_per_100_km * benzine_kosten_per_liter) + ((totale_afstand-Gratis_km)*kostenextrakm)
+        else:
+            benzinekosten = (totale_afstand / 100) * benzineverbruik_per_100_km * benzine_kosten_per_liter
+            kostenextrakm = 0
     # Berekeningen Camper
     kosten_camper = kosten_camper_per_dag * aantal_dagen
-    benzinekosten = (totale_afstand / 100) * benzineverbruik_per_100_km * benzine_kosten_per_liter
+    
     staplaatskosten = gemiddelde_kosten_per_staplaats_per_dag * aantal_dagen
-    totale_kosten_camper = kosten_camper + benzinekosten + staplaatskosten + (dagelijkse_kosten_eten_drinken_per_persoon * aantal_dagen * aantal_personen)
+    totale_kosten_camper = kosten_camper + benzinekosten + staplaatskosten + (dagelijkse_kosten_eten_drinken_per_persoon * aantal_dagen * aantal_personen) 
     totale_kosten_per_persoon_camper = totale_kosten_camper / aantal_personen
     
     # Invoer voor Vliegen
