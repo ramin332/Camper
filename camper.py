@@ -4,9 +4,9 @@ st.title("Vakantiekosten Vergelijking: Camper vs. Vliegen")
 
 # Algemeen
 st.header("Algemeen")
-aantal_dagen = st.number_input("Aantal Dagen", min_value=1, value=11)
 dagelijkse_kosten_eten_drinken_per_persoon = st.number_input("Dagelijkse Kosten voor Eten en Drinken per Persoon (€)", min_value=0, value=35)
-aantal_personen = st.number_input("Aantal Personen", min_value=1, value=2)
+aantal_dagen = st.slider('Aantal dagen', 2, 14, 7)
+aantal_personen = st.slider('Aantal personen', 1, 4, 2)
 
 # Invoer voor Camper
 st.header("Kosten Camper")
@@ -28,16 +28,23 @@ st.header("Kosten Vliegen")
 #totale_budget_per_persoon_vliegen = st.number_input("Totale Budget per Persoon voor Vliegen (€)", min_value=0, value=1500)
 kosten_vlucht_retour = st.number_input("Kosten vlucht retour (€)", min_value=0, value=750)
 kosten_auto_huren = st.number_input("Kosten auto huren per dag (€)", min_value=0, value=50)
-kosten_verblijf_per_nacht_per_persoon = st.number_input("Kosten per nacht per Persoon (€)", min_value=0, value=40)
+kosten_verblijf_per_nacht = st.number_input("Kosten per nacht per Persoon (€)", min_value=0, value=40)
 kosten_kites_meenemen_vliegtuig = st.number_input("Kosten voor Kites meenemen in het vliegtuig (€)", min_value=0, value=100)
-totale_kosten_per_persoon_vliegen = dagelijkse_kosten_eten_drinken_per_persoon + kosten_vlucht_retour + (kosten_verblijf_per_nacht_per_persoon * aantal_dagen)/aantal_personen + kosten_kites_meenemen_vliegtuig + (kosten_auto_huren * aantal_dagen)/2
+totale_kosten_per_persoon_vliegen = dagelijkse_kosten_eten_drinken_per_persoon + kosten_vlucht_retour + (kosten_verblijf_per_nacht * aantal_dagen)/aantal_personen + kosten_kites_meenemen_vliegtuig + (kosten_auto_huren * aantal_dagen)/aantal_personen
 # Berekeningen Vliegen
 beschikbaar_budget_vliegen = totale_kosten_per_persoon_camper - totale_kosten_per_persoon_vliegen
 
-# Resultaten
 st.header("Resultaten")
-st.write(f"Totale Kosten per Persoon voor de Camper: €{totale_kosten_per_persoon_camper:.2f}")
-st.write(f"Camper vs Vliegen: €{beschikbaar_budget_vliegen:.2f}")
+
+# Maak een lijst van dictionaries voor de resultaten
+results = [
+    {"Type reis": "Camper", "Totale kosten per persoon (€)": f"€{totale_kosten_per_persoon_camper:.0f}"},
+    {"Type reis": "Vliegen", "Totale kosten per persoon (€)": f"€{totale_kosten_per_persoon_vliegen:.0f}"},
+    {"Type reis": "Verschil (Camper vs Vliegen)", "Totale kosten per persoon (€)": f"€{beschikbaar_budget_vliegen:.0f}"}
+]
+
+# Toon de resultaten als een tabel in Streamlit
+st.table(results)
 
 
 labels = ['Camper', 'Vliegen']
