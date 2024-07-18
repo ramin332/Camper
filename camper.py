@@ -1,5 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+onbeperkt_km = True
 st.set_page_config(layout='wide')
 st.title("Vakantiekosten Vergelijking: Camper vs. Vliegen")
 
@@ -23,7 +24,7 @@ with col1:
         onbeperkt_km= st.toggle("Onbeperkte km?")
         if (onbeperkt_km == False):
             gratis_km = st.number_input("Gratis km", min_value=0, value=500)
-            kostenextrakm = st.number_input("Extra kosten pkm (€)", min_value=0.00, value=0.0015, step=0.0001, format="%.4f")
+            kostenextrakm = st.number_input("Extra kosten pkm (€)", min_value=0.00, value=0.015, step=0.0001, format="%.4f")
             totale_kosten_extra_km = ((totale_afstand-gratis_km)*kostenextrakm)
         else:
             totale_kosten_extra_km = 0
@@ -41,7 +42,7 @@ with col1:
     kosten_auto_huren = st.number_input("Kosten auto huren per dag totaal (€)", min_value=0, value=50)
     kosten_verblijf_per_nacht = st.number_input("Kosten per nacht totaal (€)", min_value=0, value=85)
     totale_kosten_vliegen = (dagelijkse_kosten_eten_drinken_totaal * aantal_dagen) + kosten_vlucht_retour*2 + (kosten_verblijf_per_nacht * aantal_dagen) + kosten_kites_meenemen_vliegtuig*2 + (kosten_auto_huren * aantal_dagen)
-    totale_kosten_per_persoon_vliegen = totale_kosten_vliegen/2
+    totale_kosten_per_persoon_vliegen = totale_kosten_vliegen/aantal_personen
     # Berekeningen Vliegen
     beschikbaar_budget_vliegen = totale_kosten_camper_huren_per_persoon - totale_kosten_per_persoon_vliegen
 with col2:
